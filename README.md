@@ -31,6 +31,16 @@ sudo apt-get install <package>
 
 ### Python General commands
 
+#### Install PIP for python packages
+
+```bash
+apt-get install python3-pip
+```
+
+#### Instal python module for Virtual Environment
+
+apt-get install python3-venv
+
 
 #### Update requirements file for python venv
 
@@ -134,3 +144,32 @@ top -p <PID> -H
     * copy the env file from the S3 bucket to your code
     * start up Gunicorn 
 * Alter SystemD file to run the bash script
+
+
+## Docker
+
+### Download docker image (eg ubuntu)
+
+```bash
+docker pull <image>
+```
+
+### Run docker container with name
+
+```bash
+docker run -d -t --name <name> <docker_image>
+```
+OR
+```bash
+docker run -d -t -p 80:80 --name <name> <docker_image>
+```
+ Where the -p command is for port. The last number is for the docker container. The first 80 for the host.
+### connect  to Docker os
+
+```bash
+docker exec -it <name> <terminal_shell>
+```
+
+### Running Containers
+
+docker ps
