@@ -31,6 +31,22 @@ sudo apt-get install <package>
 
 ### Python General commands
 
+#### Change Python version
+```bash
+sudo update-alternatives --install /usr/bin/python python /usr/bin/<python version>
+sudo update-alternatives --install /usr/bin/python python /usr/bin/<python version>
+```
+This updates the pointers for python3
+
+
+#### Change default Python3
+
+```bash
+sudo update-alternatives --config python
+```
+
+Select Appropriate Python that you want ad default
+
 #### Install PIP for python packages
 
 ```bash
