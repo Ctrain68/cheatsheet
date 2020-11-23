@@ -55,8 +55,9 @@ apt-get install python3-pip
 
 #### Instal python module for Virtual Environment
 
+```bash
 apt-get install python3-venv
-
+```
 
 #### Update requirements file for python venv
 
@@ -98,7 +99,7 @@ After=network.target
 [Service]
 EnvironmentFile=/home/ubuntu/.env
 User=ubuntu
-WorkingDirectory=/home/ubuntu/ccc-03-16
+WorkingDirectory=/home/ubuntu/{code-folder}
 ExecStart=/home/ubuntu/.local/bin/gunicorn -b 0.0.0.0:5000 -w 3 "main:create_app()"
 Restart=always
 
@@ -154,13 +155,53 @@ top -p <PID> -H
 ### script for env variables s3
 
 * upload file to S3 bucket - env file with variables
-* create a role in AWS to grant access to S3 buckets / other services
+* create a role in AWS to grant access to S3 buckets / other services - S3 Read only is a preset
 * use aws cli to be able to download and copy file from s3 bucket
+```bash
+$ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.0.30.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+```
+```bash
+sudo ./aws/install
+```
+Note that unzip may have to be installed
+
+* Add env file to EC2 instance 
+
+```bash
+aws s3 cp s3://{s3-bucket-name}/{folder}/{file} /home/ubuntu/{code-folder}/{file-name}
+
 * write a bash script to:
     * copy the env file from the S3 bucket to your code
     * start up Gunicorn 
+```bash
+#!/bin/bash
+
+/usr/local/bin aws s3 cp s3://col-flask-app-image-lesson/environment/.env /home/ubuntu/ccc-03-16/.env
+cd ccc-03-16
+/home/ubuntu/.local/bin/gunicorn -b 0.0.0.0:5000 -w 3 "main:create_app()"
+```
+
+
+
 * Alter SystemD file to run the bash script
 
+
+```bash
+[Unit]
+Description=Gunicorn managing flask application
+After=network.target
+
+[Service]
+#EnvironmentFile=/home/ubuntu/.env
+User=ubuntu
+WorkingDirectory=/home/ubuntu/ccc-03-16
+ExecStart=/homr/ubuntu/booth.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
 
 ## Docker
 
@@ -188,4 +229,6 @@ docker exec -it <name> <terminal_shell>
 
 ### Running Containers
 
+```bash
 docker ps
+```
